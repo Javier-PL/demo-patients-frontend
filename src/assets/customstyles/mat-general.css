@@ -1,0 +1,11 @@
+::ng-deep .mat-input-element{
+    caret-color: yellow !important;
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label{
+    color:yellow !important
+}
+
+
+::ng-deep .mat-form-field-underline, ::ng-deep .mat-form-field-ripple {
+  background-color: green !important;
+}

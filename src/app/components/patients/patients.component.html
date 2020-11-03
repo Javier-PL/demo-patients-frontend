@@ -1,0 +1,540 @@
+
+<div class="content  font-small" >
+
+  <div class="content-image"></div>
+
+
+  <!-- CONTAINER 1 -->
+
+  <div class="content-column1">
+
+  <div class="container1" >
+    <mat-card class="outer-card card-custom" style="width:22vw">
+
+      <div class="button-group-frame">
+        <mat-button-toggle-group style="border:0px;">
+          <mat-button-toggle class="button-custom" (click)="toggleAddPatient()">Nuevo Paciente</mat-button-toggle>
+          <mat-button-toggle class="button-custom" (click)="toggleAddOrg()">Nueva Organización</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <form *ngIf="showAddPatient" [formGroup]="addPatientForm" (submit)="addPatient(false)" (keydown.enter)="$event.preventDefault()"
+        class="form-custom" >
+        <table class="form-table" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="form-field-custom">
+                <mat-label>Nombre</mat-label>
+                <input matInput [errorStateMatcher]="matcher" type="text" formControlName="name" [errorStateMatcher]="errorMatcher"
+                  required>
+                <mat-error>
+                  Debe introducir un <strong>nombre</strong>
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="form-field-custom">
+                <mat-label>Apellidos</mat-label>
+                <input matInput #surname type="text" formControlName="surname">
+              </mat-form-field>
+            </td>
+
+
+
+          </tr>
+        </table>
+        <table class="form-table" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="form-field-custom">
+                <mat-label>DNI</mat-label>
+                <input matInput #dni maxlength="9" type="text" formControlName="dni">
+                <mat-hint align="end">{{dni.value.length}} / 9</mat-hint>
+              </mat-form-field>
+            </td>
+
+            <td>
+              <mat-form-field class="form-field-custom">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Ex. San Francisco" type="email" formControlName="email">
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+        <table  class="form-table" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="form-field-custom">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" formControlName="address">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="form-field-custom">
+                <mat-label>Tel.</mat-label>
+                <input matInput type="phone" formControlName="phone">
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+        <button mat-button type="submit" value="submit" [disabled]="addPatientForm.invalid || disableButtons === true">Crear</button>
+      </form>
+
+
+      <div>
+        <form *ngIf="showAddOrg" [formGroup]="addPatientForm" (submit)="addPatient(true)" (keydown.enter)="$event.preventDefault()"
+          class="form-custom">
+          <table class="form-table" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="form-field-custom">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput [errorStateMatcher]="matcher" type="text" formControlName="name" [errorStateMatcher]="errorMatcher"
+                    required>
+                  <mat-error>
+                    Debe introducir un <strong>nombre</strong>
+                  </mat-error>
+                </mat-form-field>
+              </td>
+
+              <td>
+                <mat-form-field class="form-field-custom">
+                  <mat-label>Dirección</mat-label>
+                  <input matInput #address type="text" formControlName="address">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <table class="form-table" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="form-field-custom">
+                  <mat-label>NIF</mat-label>
+                  <input matInput type="text" formControlName="dni">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="form-field-custom">
+                  <mat-label>Tel.</mat-label>
+                  <input matInput type="phone" formControlName="phone">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <button mat-button type="submit" value="submit" [disabled]="addPatientForm.invalid || disableButtons === true">Crear</button>
+        </form>
+
+      </div>
+
+    </mat-card>
+
+
+  </div>
+
+
+  <!-- CONTAINER 3 -->
+
+  <div class="container3">
+    <mat-card class="outer-card card-custom search-card" >
+        <div>Búsqueda de Factura</div>
+
+          <table  cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="form-field-custom">
+                  <mat-label>Número de Factura</mat-label>
+                  <input matInput  type="number" required [(ngModel)]="searchInvoice">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <button mat-button type="submit" value="submit" [disabled]="disableButtons === true" (click)="onSearchInvoice()">Buscar</button>
+
+          <div *ngIf="isFoundInvoice">
+          <div class="result-title">Resultado:</div>
+          <table   cellspacing="0">
+            <tr>
+              <td>
+                <div class="result-field"><span >Número: </span><span>{{foundInvoice.invoice_number}}</span></div>
+              </td>
+              <td>
+                <div class="result-field"><span>Paciente: </span><span>{{foundInvoice.patient}}</span></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="result-field"><span>Unidades: </span><span>{{foundInvoice.units}}</span></div>
+              </td>
+              <td>
+                <div class="result-field"><span>Precio: </span><span>{{foundInvoice.price}}</span></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="result-field"><span>Retención: </span><span>{{foundInvoice.retention}}</span></div>
+              </td>
+              <td>
+                <div class="result-field"><span>Pagado: </span><span>{{foundInvoice.payed}}</span></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="result-field"><span>Fecha: </span><span>{{foundInvoice.date | date:'dd/MM/yyyy'}}</span></div>
+              </td>
+              <td>
+                <div class="result-field"><span>Descripción: </span><span>{{foundInvoice.desc}}</span></div>
+              </td>
+            </tr>
+          </table>
+          
+        </div>
+
+    </mat-card>
+  </div>
+
+</div>
+
+
+  <!-- CONTAINER 2 -->
+<div class="content-column2">
+  <div class="container2">
+    <mat-card class="outer-card card-custom" >
+
+
+      <div  class="invoice-frame" >
+
+        <div class="invoice-search-frame" >
+
+          <div *ngIf="!showUpdatePatient"  (keydown.enter)="$event.preventDefault()">
+            <mat-form-field >
+              <mat-label >Búsqueda paciente:</mat-label>
+              <input type="text" matInput [formControl]="searchControl" [matAutocomplete]="auto" >
+              <button mat-button *ngIf="selectedPatient" matSuffix mat-icon-button aria-label="Clear" (click)="clearPatientSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+
+                <mat-option class="search-option" *ngFor="let patient of filteredPatients | async" [value]="patient" (click)=toggleShowDetails(true)>
+                  <span  class="font-small-1" *ngIf="selectedSearchType=='fullname'">{{patient.fullname}}</span>
+                  <span  class="font-small-1" *ngIf="selectedSearchType=='dni' && patient.dni!=null">{{patient.dni}}</span>
+                </mat-option>
+
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+
+          <div class="select-type">
+          <mat-form-field  *ngIf="!showUpdatePatient">
+            <mat-label>Buscar por:</mat-label>
+            <mat-select [(ngModel)]="selectedSearchType">
+              <mat-option *ngFor="let stype of searchtypes" [value]="stype.value">
+                {{stype.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        </div>
+
+
+          <div *ngIf="selectedPatient && showDetails === true">
+
+          <div *ngIf="!showUpdatePatient">
+            <div class="label-custom">
+              <span style="font-weight:580;">Nombre: </span><span *ngIf="selectedPatient.name!=''" style="margin-right:1vw">{{selectedPatient.name}}</span>
+              <span *ngIf="selectedPatient.surname!=''" style="font-weight: 580">Apellidos: </span><span>{{selectedPatient.surname}}</span>
+            </div>
+            <div *ngIf="selectedPatient.dni!='' || selectedPatient.email!=''" class="label-custom">
+              <span *ngIf="selectedPatient.dni!=''" style="font-weight: 580;"><span *ngIf="!selectedPatient.isorg">DNI:</span><span *ngIf="selectedPatient.isorg">NIF:</span> </span> <span *ngIf="selectedPatient.dni!=''"
+                style="margin-right:1vw">{{selectedPatient.dni}}</span>
+              <span *ngIf="selectedPatient.email!=''" style="font-weight: 580">Email: </span><span>{{selectedPatient.email}}</span>
+            </div>
+            <div *ngIf="selectedPatient.address!='' || selectedPatient.phone!=''" class="label-custom">
+              <span *ngIf="selectedPatient.address!=''" style="font-weight: 580;">Dirección: </span><span *ngIf="selectedPatient.address!=''"
+                style="margin-right:1vw">{{selectedPatient.address}}</span>
+              <span *ngIf="selectedPatient.phone!=''" style="font-weight: 580;">Tlf: </span><span>{{selectedPatient.phone}}</span>
+            </div>
+          </div>
+
+          <div *ngIf="showUpdatePatient">
+            <form [formGroup]="updatePatientForm" (submit)="updatePatient()" (keydown.enter)="$event.preventDefault()"
+              class="form-custom">
+
+              <table class="example-full-width" cellspacing="0">
+                <tr>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Nombre</mat-label>
+                      <input matInput [errorStateMatcher]="matcher" type="text" value="{{selectedPatient.name}}"
+                        formControlName="name" [errorStateMatcher]="errorMatcher" required>
+                      <mat-error>
+                        Debe introducir un <strong>nombre</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+
+                  <td *ngIf="selectedPatient.isorg===false">
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Apellidos</mat-label>
+                      <input matInput #surname type="text" value="{{selectedPatient.surname}}" formControlName="surname">
+                    </mat-form-field>
+                  </td>
+
+                  <td *ngIf="selectedPatient.isorg===false">
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>DNI</mat-label>
+                      <input matInput #dni maxlength="9" type="text" value="{{selectedPatient.dni}}" formControlName="dni">
+                      <mat-hint align="end">{{dni.value.length}} / 9</mat-hint>
+                    </mat-form-field>
+                  </td>
+
+                  <td *ngIf="selectedPatient.isorg===true">
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>NIF</mat-label>
+                      <input matInput #dni maxlength="9" type="text" value="{{selectedPatient.dni}}" formControlName="dni">
+                    </mat-form-field>
+                  </td>
+
+                </tr>
+              </table>
+
+
+              <table class="example-full-width" cellspacing="0">
+                <tr>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Email</mat-label>
+                      <input matInput type="email" value="{{selectedPatient.email}}" formControlName="email">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Dirección</mat-label>
+                      <input matInput type="address" value="{{selectedPatient.address}}" formControlName="address">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Tel.</mat-label>
+                      <input matInput type="phone" value="{{selectedPatient.phone}}" formControlName="phone">
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </table>
+              <button mat-button type="submit" value="submit" [disabled]="updatePatientForm.invalid || disableButtons === true">Modificar</button>
+            </form>
+          </div>
+
+          <mat-button-toggle *ngIf="!showUpdatePatient" class="button-custom" (click)="toggleUpdatePatient()">Modificar
+            datos</mat-button-toggle>
+          <mat-button-toggle *ngIf="showUpdatePatient" class="button-custom" (click)="toggleUpdatePatient()">Cancelar</mat-button-toggle>
+
+          <mat-button-toggle *ngIf="!showUpdatePatient" class="button-custom" (click)="toggleShowInvoices()">Mostrar
+            facturas</mat-button-toggle>
+
+
+
+
+          <mat-button-toggle *ngIf="!showUpdatePatient" class="button-custom" (click)="toggleAddInvoice()">Nueva
+            Factura</mat-button-toggle>
+
+      
+
+
+
+          <div *ngIf="showAddInvoice && !showUpdatePatient">
+
+            <form [formGroup]="formInvoices" (submit)="addInvoice()" class="new-invoice" class="form-custom" (keydown.enter)="$event.preventDefault()">
+
+              <div style="margin:0.6vw 0 0.6vw 0;">Factura N°: <span style="font-weight: bold;">{{invoiceNumber}}</span></div>
+
+              <table class="example-full-width" cellspacing="0">
+                <tr>
+                  <td>
+                    <mat-form-field class="form-field-custom" >
+                      <mat-label>Unidades</mat-label>
+                      <input matInput #unitsinput type="number" formControlName="units" (change)="updatePayed()">
+                      <mat-error>
+                        Debe introducir un <strong>número</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Precio Unitario (€)</mat-label>
+                      <input matInput #priceinput type="number" formControlName="price" (change)="updatePayed()">
+                      <mat-error>
+                        Debe introducir un <strong>número</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+                  
+
+                </tr>
+              </table>
+
+              <table  cellspacing="0">
+                
+                <tr>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Retención (%)</mat-label>
+                      <input matInput #retentioninput type="number" formControlName="retention" (change)="updatePayed()">
+                      <mat-error>
+                        Debe introducir un <strong>número</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+
+                </tr>
+              </table>
+
+              <table  cellspacing="0">
+                <tr>
+
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Total (€)</mat-label>
+                      <input matInput disabled value="{{(unitsinput.value * priceinput.value)-(unitsinput.value * priceinput.value * retentioninput.value/100)}}">
+                      <!--<span>{{unitsinput.value * priceinput.value}}</span>-->
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Pagado (€)</mat-label>
+                      <input matInput type="number" formControlName="payed">
+                      <mat-error>
+                        Debe introducir un <strong>número</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+
+                </tr>
+              </table>
+
+              <table  cellspacing="0">
+                <tr>
+
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Fecha:</mat-label>
+                      <input matInput type="date" formControlName="date">
+                      <mat-error>
+                        Debe introducir una <strong>fecha</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="form-field-custom">
+                      <mat-label>Descripción:</mat-label>
+                      <textarea matInput type="text" formControlName="desc"></textarea>
+                    </mat-form-field>
+                  </td>
+
+
+
+                </tr>
+              </table>
+
+              <button mat-button type="submit" value="submit" [disabled]="formInvoices.invalid || disableButtons === true">Facturar</button>
+            </form>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+     <!-- <div *ngIf="showInvoicesTable && !showUpdatePatient && selectedPatient.ID != '' && selectedPatient != null" style="display: inline-block; vertical-align:top;margin:0.5vw;padding:0.2vw">-->
+        <div class="invoice-table" *ngIf="showInvoicesTable && !showUpdatePatient && selectedPatient" >
+        <div class="label-custom">Facturas de {{selectedPatient.fullname}}</div>
+
+        <div class="example-container mat-elevation-z8">
+
+
+          <mat-table #table [dataSource]="datasource" matSort>
+
+            <ng-container matColumnDef="select">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 8% !important;"> </mat-header-cell>
+              <mat-cell class="font-big" *matCellDef="let element" style="flex: 0 0 8% !important;"> <mat-icon (click)="openEditInvoiceDialog(element)" style="cursor: pointer">edit</mat-icon> <mat-icon  (click)="createInvoicePDF(element)" style="cursor: pointer">picture_as_pdf</mat-icon></mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="invoice_number">
+              <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 7% !important;"> N° Factura </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-mat-table-text"  style="flex: 0 0 7% !important;"> {{element.invoice_number}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 12% !important;"> Fecha </mat-header-cell>
+              <mat-cell *matCellDef="let element" style="flex: 0 0 12% !important;"> {{element.date | date:'dd-MM-y'}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="desc">
+              <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 18% !important;"> Descripción </mat-header-cell>
+              <mat-cell *matCellDef="let element" style="flex: 0 0 18% !important;"> {{element.desc}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="retention">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 11% !important;"> Retención (%) </mat-header-cell>
+              <mat-cell *matCellDef="let element" style="flex: 0 0 11% !important;" class="center-mat-table-text"><span *ngIf="element.retention!=null && element.retention!==0 && element.retention!== undefined ">
+                {{element.retention}}%</span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="units" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 10% !important;"> Unidades </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"> {{element.units}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Precio Unitario (€) </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"><span> {{element.price}}</span><span *ngIf="element.retention>0">  {{element.price*element.retention/100}}</span></mat-cell>
+              <mat-footer-cell mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Total (€) </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"><span> {{element.units*element.price}}</span><span *ngIf="element.retention>0">- {{element.units*element.price*element.retention/100}}</span></mat-cell>
+              <mat-footer-cell mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+            </ng-container>
+
+           
+
+           
+
+            <ng-container matColumnDef="payed">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Pagado (€) </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"> {{element.payed}} /{{(element.units*element.price)-(element.units*element.price*element.retention/100)}}</mat-cell>
+              <mat-footer-cell mat-footer-cell *matFooterCellDef> {{getTotalPayment()}} / {{getTotalExpectedPayment()}} (€)</mat-footer-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+          </mat-paginator>
+
+        </div>
+      </div>
+
+    </mat-card>
+
+
+
+
+
+
+
+
+  </div>
+
+</div>
+  
+
+</div>

@@ -1,0 +1,29 @@
+.font-small-1{
+    font-size: calc(1rem + 0.5vmin);
+  }
+  .font-small *{
+      font-size: calc(1rem + 0.5vmin);
+  }
+  .font-med-1 {
+    font-size: calc(1rem + 1vmin);
+  }
+  .font-med  *{
+      font-size: calc(1rem + 1vmin);
+  }
+  .font-big-1{
+    font-size: calc(1rem + 1.5vmin);
+  }
+  .font-big *{
+      font-size: calc(1rem + 1.5vmin);
+  }
+
+
+  ::ng-deep .mat-form-field-infix{
+      width: 21vmin !important
+  }
+
+  /*
+  .custom-form-field{
+    font-size: calc(1rem + 0.6vmin) !important;
+    margin: 0 1vmin 0 1vmin !important
+}*/

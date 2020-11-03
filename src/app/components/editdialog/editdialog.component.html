@@ -1,0 +1,145 @@
+<div class="font-med" >
+  <span>Modificación de Factura N°: </span>
+  <span class="dialog-font">{{data.invoice_number}}</span>
+</div>
+<div class="font-med" *ngIf="!data.isorg" >
+  <span>Paciente: </span>
+  <span class="dialog-font">{{data.patient}}</span>
+</div>
+<div class="font-med" *ngIf="data.isorg" >
+  <span>Organización: </span>
+  <span class="dialog-font">{{data.patient}}</span>
+</div>
+<div style="margin-bottom: 5vh;">
+</div>
+
+
+
+
+<div style="display: flex" class="font-small">
+
+ 
+  <mat-form-field>
+    <mat-label>Mover factura a paciente:</mat-label>
+    <input class="search" type="text" matInput  [formControl]="searchControl" [matAutocomplete]="auto" >
+    <button type="button" mat-button *ngIf="selectedPatient" matSuffix mat-icon-button aria-label="Clear" (click)="clearPatientSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+
+      <mat-option style="height:auto;line-height: 1.5vw" *ngFor="let patient of filteredPatients | async" [value]="patient" >
+        <span style="height:3vh;line-height: 0px" class="font-small-1" *ngIf="selectedSearchType=='fullname'">{{patient.fullname}}</span>
+        <span style="height:3vh;line-height: 0px" class="font-small-1" *ngIf="selectedSearchType=='dni' && patient.dni!=null">{{patient.dni}}</span>
+      </mat-option>
+
+    </mat-autocomplete>
+  </mat-form-field>
+
+
+
+<mat-form-field >
+  <mat-label>Buscar por:</mat-label>
+  <mat-select [(ngModel)]="selectedSearchType" >
+    <mat-option *ngFor="let stype of searchtypes" [value]="stype.value">
+      {{stype.viewValue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+</div>
+
+
+<form [formGroup]="updateForm" (submit)="processDataAndClose()"  class="form-custom" (keydown.enter)="$event.preventDefault()">
+
+<div mat-dialog-content >
+
+  
+    <table  cellspacing="0">
+      <tr>
+        <td>
+    <mat-form-field class="font-small">
+      <mat-label>Unidades</mat-label>
+      <input matInput #unitsinput type="number" formControlName="units">
+      <mat-error>
+        Debe introducir un <strong>número</strong>
+      </mat-error>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field class="font-small">
+      <mat-label>Precio</mat-label>
+      <input matInput #priceinput type="number" formControlName="price">
+      <mat-error>
+        Debe introducir un <strong>número</strong>
+      </mat-error>
+    </mat-form-field>
+  </td>
+  </tr>
+  </table>
+
+  <table  cellspacing="0">
+      <tr>
+        <td>
+    <mat-form-field class="font-small">
+      <mat-label>Retención (%)</mat-label>
+      <input matInput #retentioninput type="number" formControlName="retention">
+      <mat-error>
+        Debe introducir un <strong>número</strong>
+      </mat-error>
+    </mat-form-field>
+
+      </td>
+      </tr>
+  </table>
+
+  <table cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="font-small">
+            <mat-label>Total (€)</mat-label>
+            <input matInput disabled value="{{(unitsinput.value * priceinput.value)-(unitsinput.value * priceinput.value * retentioninput.value/100)}}">
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="font-small">
+            <mat-label>Pagado (€)</mat-label>
+            <input matInput type="number" formControlName="payed">
+            <mat-error>
+              Debe introducir un <strong>número</strong>
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <table cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field class="font-small">
+            <mat-label>Fecha:</mat-label>
+            <input matInput type="date" formControlName="date">
+            <mat-error>
+              Debe introducir una <strong>fecha</strong>
+            </mat-error>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="font-small">
+            <mat-label>Descripción:</mat-label>
+            <textarea matInput type="text" formControlName="desc"></textarea>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    
+
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button type="button" (click)="onNoClick()">Cancelar</button>
+  <button mat-button type="submit" value="submit" [disabled]="updateForm.invalid || disableButtons === true" cdkFocusInitial>Modificar</button>
+</div>
+
+
+</form>

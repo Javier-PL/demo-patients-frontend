@@ -1,0 +1,229 @@
+
+
+.center-mat-table-text{
+  text-align: center;
+  display: inline-grid
+}
+
+.center-mat-header-cell {
+  display:flex;
+  justify-content:center;
+ }
+
+
+.edit-invoice.button:hover{
+  color: #298a85  ;
+  cursor: pointer ;
+}
+
+
+
+
+  .mat-card{
+     padding:0.4vw !important;
+    box-shadow: 0px
+  }
+
+  .outer-card{
+    box-shadow: 0px;
+      margin:0.8vw;
+      display: inline-block;
+  }
+
+  .search-card{
+    width:22vw;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .search-card table{
+    margin: auto;
+  }
+  .search-card div{
+    margin:auto;
+  }
+
+  .label-custom{
+
+    border-left:solid 3px #53c2be;
+    padding:0.2vw;
+    margin:0.5vw
+  }
+
+  
+  .mat-form-field{
+    padding:0 1.4vw 0 0;
+    width:100%;
+  }
+  .form-table{
+    width:100%;
+    table-layout: fixed;
+  }
+
+  .form-table td{
+    padding:0.7vw;
+  }
+ 
+  
+
+  ::ng-deep  .mat-button-toggle-appearance-standard{
+    background-color: #53c2be;
+  }
+  ::ng-deep  .mat-button-toggle-checked{
+    background-color: #298a85;
+   
+  }
+
+ ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+    line-height:4vh!important;
+ 
+  }
+
+  .button-custom {
+    color:white;
+   
+    border-radius:0px !important;
+      /*border:solid 2px #53c2be;*/
+      margin:0.5vw;
+      font:14px !important;
+      border:0px;
+     
+  }
+
+  .matbutton-toggle-checked {
+    background: red;
+  }
+
+  /*
+  ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label- {
+    line-height:30px !important;
+    font:14px !important
+  }*/
+
+  .form-field-custom{
+      font-size: 14px
+  }
+
+  .form-custom{
+    border:0px;
+    border-radius: 3px;
+    display: inline-block;
+    width:100%
+  }
+
+  /*Content*/
+  .content{
+    background-color:#ededed;
+    min-height:100vh;
+    height:auto;
+    width:100vw;
+    display:flex;
+    flex-direction: row;
+    padding:7vh 0 0 0.1vw;
+  }
+
+  .content-image{
+    position: absolute;
+    min-height:100vh;
+    height:auto;
+
+    width:100vw;
+    background-image: url('../../../assets/icons/ccl_logo.png');
+    background-size: 25vw;
+    background-repeat:no-repeat;
+    background-position: center; 
+    opacity: 0.4;
+    filter: grayscale(100%);
+  }
+
+  /*Content Columns*/
+  .content-column1{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    max-width:25vw;
+  }
+
+  .content-column2{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+  }
+
+  /*Container 1*/
+
+
+  .container1{
+    vertical-align:top;
+  }
+
+  .button-group-frame{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  /*Container 2*/
+  .container2{
+     vertical-align:top;
+  }
+
+  .invoice-frame{
+    display: inline-block; 
+    vertical-align:top;
+    margin:0.5vw;
+    padding:0.2vw
+  }
+
+  .invoice-search-frame{
+    display: flex
+  }
+
+  .search-option{
+    height:auto;
+    line-height: 1.5vw
+  }
+
+  .search-option span{
+    height:3vh;
+    line-height: 0px
+  }
+
+  .invoice-table{
+    display: inline-block; 
+    vertical-align:top;
+    margin:0.5vw;
+    padding:0.2vw
+  }
+
+  /*Container 3*/
+
+  .container3{
+
+     vertical-align:top;
+
+  }
+
+  
+  @supports (-ms-ime-align:auto) {
+    .select-type{
+      width:10vw /*Workaround for bug when using Edge*/
+    }
+}
+  .result-title{
+    margin:2vh !important;
+    font-weight: bold;
+  }
+
+  .result-field{
+    margin-left:1vw !important;
+    margin-bottom:1vh !important;
+  }
+
+  .result-field span:first-child{
+    font-weight: bold;
+  }

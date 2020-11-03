@@ -1,0 +1,16 @@
+.dialog-font{
+    font-weight: bold;
+}
+
+::ng-deep  .mat-button-toggle-appearance-standard{
+    background-color: #53c2be;
+  }
+  ::ng-deep  .mat-button-toggle-checked{
+    background-color: #298a85;
+   
+  }
+
+ ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+    line-height:4vh!important;
+ 
+  }

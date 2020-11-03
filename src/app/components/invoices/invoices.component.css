@@ -1,0 +1,67 @@
+.section1{
+  display: flex; 
+  justify-content: space-around;
+  padding-top:6vh
+}
+
+.section1-spacer{
+  width:25%
+}
+.section1-tools{
+  width:50%;
+  display: flex; 
+  justify-content:center
+}
+
+.section1-datepicker{
+  padding:2vh;
+  display:inline-block;
+  width:15vw
+}
+
+.section1-download{
+  display: flex; 
+  align-items:center;
+}
+.section1-download img{
+  width: auto; 
+  height: auto;
+  max-width: 50px;
+  max-height: 50px;
+  cursor: pointer;
+}
+
+.section1-title{
+  display: flex; align-items:center; 
+}
+
+.download{
+   /* margin: 1vw;*/
+   /* padding: 0.5vw;*/
+
+}
+.beautify{
+    padding: 0.5vw;
+}
+
+.label-custom{
+
+    border-left:solid 3px #53c2be;
+    padding:0.2vw;
+    margin:0.5vw
+  }
+
+  .vertical-align-span{
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .center-mat-table-text{
+    text-align: center;
+    display: inline-grid
+  }
+
+  .center-mat-header-cell {
+    display:flex;
+    justify-content:center;
+   }

@@ -1,0 +1,33 @@
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+  }
+
+  
+
+
+
+  .login-dialog{
+    border: 1px solid grey;
+    width: 20vw;
+    height: 30vh;
+  }
+
+  .login-dialog table{
+    width:100%
+  }
+
+  .login-dialog mat-form-field{
+    width:80%
+  }
+
+  .logo{
+    width:15vh;
+    height:15vh;
+    padding-bottom:10vh
+  }
+  

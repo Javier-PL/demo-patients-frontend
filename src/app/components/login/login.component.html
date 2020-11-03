@@ -1,0 +1,38 @@
+<div class="center-screen">
+
+  <img class="logo" src="assets/icons/ccl_logo.png"  >
+  <mat-card class="font-med-1 login-dialog" >
+
+    <form [formGroup]="loginForm" (submit)="login()" class="form-custom">
+
+      <table cellspacing="0" >
+        <tr>
+          <td>
+            <div>
+              <mat-form-field >
+                <mat-label>Usuario</mat-label>
+                <input matInput [errorStateMatcher]="matcher" type="text" formControlName="username">
+                <mat-error>
+                  Debe introducir un nombre de usuario
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field >
+                <mat-label>Contraseña</mat-label>
+                <input matInput #surname  [type]="hide ? 'text' : 'password'" formControlName="password">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_on' : 'visibility_off'}}</mat-icon>
+              </mat-form-field>
+
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <button mat-button type="submit" value="submit" [disabled]="loginForm.invalid">Login</button>
+    </form>
+
+    <div *ngIf="isLoginFailed">Su usuario y/o su contraseña no son correctos</div>
+
+  </mat-card>
+</div>

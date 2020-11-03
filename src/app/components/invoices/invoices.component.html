@@ -1,0 +1,115 @@
+<div  class="section1">
+  <div class="section1-spacer"></div>
+  <div class="section1-tools" >
+    <div>
+    <mat-form-field class="section1-datepicker font-med-1"  >
+      <input matInput placeholder="Selección fechas" [satDatepicker]="picker" [value]="theDateRange" (dateChange)="retrieveRangeInvoices($event)">
+      <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+    </mat-form-field>
+  </div>
+    <div class="font-med-1 section1-title vertical-align-span" ><span class="label-custom">Descargar:</span></div>
+    <!--<div style="display: flex; align-items:center;margin-right:2vw">
+      <img style="cursor: pointer;"
+      (click)="exportexcel()" src="assets/icons/excel_download_icon2.png" style="width: auto; height: auto;max-width: 50px;max-height: 50px">
+    </div>-->
+    <div class="section1-download" >
+      <img  (click)="exportpdf()" src="assets/icons/pdf_icon_transparent_2_small.png" >
+    </div>
+  </div>
+  <div class="section1-spacer"></div>
+</div>
+
+
+<div class="example-container mat-elevation-z8" #TABLE>
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef style="flex: 0 0 8% !important;"> </mat-header-cell>
+      <mat-cell class="font-big" *matCellDef="let element" style="flex: 0 0 8% !important;"> <mat-icon (click)="openEditInvoiceDialog(element)" style="cursor: pointer">edit</mat-icon> <mat-icon  (click)="createInvoicePDF(element)" style="cursor: pointer">picture_as_pdf</mat-icon></mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 8% !important;"> </mat-footer-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="invoice_number">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 7% !important;"> Factura N° </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 7% !important;"> {{element.invoice_number}} </mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 7% !important;">  </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 12% !important;"> Fecha </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 12% !important;"> {{element.date | date:'dd-MM-y'}} </mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 12% !important;">  </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="patient">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 8% !important;"> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 8% !important;"> {{element.patient}} </mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 8% !important;"> </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="desc">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="flex: 0 0 18% !important;"> Descripción </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 18% !important;"> {{element.desc}} </mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 18% !important;"> </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="retention">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;">Retención (%) </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"> <span *ngIf="element.retention!=null && element.retention!==0 && element.retention!== undefined ">
+          {{element.retention}}% </span></mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 10% !important;"> </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="units">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 6% !important;"> Unidades </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 6% !important;"> {{element.units}} </mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 6% !important;"> </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Precio Unitario (€) </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"><span> {{element.price}}</span><span *ngIf="element.retention>0">  {{element.price*element.retention/100}}</span></mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef style="flex: 0 0 10% !important;"> </mat-footer-cell>
+    </ng-container>
+
+<!--
+    <ng-container matColumnDef="total_price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Precio Total (€) </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"><span> {{element.units*element.price}}<span *ngIf="element.retention>0" style="white-space: pre;"> - {{element.units*element.price*element.retention/100}}</span></span></mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+    </ng-container>
+    -->
+
+    <ng-container matColumnDef="total">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Total (€) </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"><span> {{element.units*element.price}}</span><span *ngIf="element.retention>0">- {{element.units*element.price*element.retention/100}}</span></mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef class="center-mat-table-text" style="flex: 0 0 10% !important;"> Total </mat-footer-cell>
+    </ng-container>
+
+    <!--
+    <ng-container matColumnDef="retention">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Retención Total (€) (%) </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <span *ngIf="element.retention!=null && element.retention!==0 && element.retention!== undefined ">-{{element.units*element.price*element.retention/100}}
+          ({{element.retention}}%) </span></mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+    </ng-container>-->
+
+    <ng-container matColumnDef="payed">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="center-mat-header-cell" style="flex: 0 0 10% !important;"> Pagado (€) </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="center-mat-table-text" style="flex: 0 0 10% !important;"> {{element.payed}} /{{(element.units*element.price)-(element.units*element.price*element.retention/100)}}</mat-cell>
+      <mat-footer-cell mat-footer-cell *matFooterCellDef class="center-mat-table-text" style="flex: 0 0 10% !important;"> {{ (getTotalPayment()).toFixed(1) }} /  {{ (getTotalExpectedPayment()).toFixed(1) }} (€)</mat-footer-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20,30,40,50,100]" [showFirstLastButtons]="true">
+  </mat-paginator>
+
+</div>
+
